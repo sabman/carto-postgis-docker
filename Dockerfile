@@ -21,9 +21,7 @@ RUN git clone --depth 1 --branch master https://github.com/CartoDB/cartodb-postg
 RUN cd /cartodb-postgresql && make all install
 
 # somehow, we need to run this again. postgresql parent container does this, but it seems to get overwritten
-RUN mv -v /usr/share/postgresql/$PG_MAJOR/postgresql.conf.sample /usr/share/postgresql/ \
-	&& ln -sv ../postgresql.conf.sample /usr/share/postgresql/$PG_MAJOR/ \
-&& sed -ri "s!^#?(listen_addresses)\s*=\s*\S+.*!\1 = '*'!" /usr/share/postgresql/postgresql.conf.sample
+RUN sed -ri "s!^#?(listen_addresses)\s*=\s*\S+.*!\1 = '*'!" /usr/share/postgresql/postgresql.conf.sample
 
 RUN mkdir -p /docker-entrypoint-initdb.d
 COPY ./initdb-carto.sh /docker-entrypoint-initdb.d/carto.sh
