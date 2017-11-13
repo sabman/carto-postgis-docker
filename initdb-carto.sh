@@ -15,6 +15,7 @@ createdb $CARTO_DB_NAME\_$CARTO_ENV
 for DB in template_carto $CARTO_DB_NAME\_$CARTO_ENV; do
 	echo "Loading Carto extensions into $DB"
 	"${psql[@]}" --dbname="$DB" <<-'EOSQL'
+		CREATE EXTENSION IF NOT EXISTS tablefunc;
 		CREATE EXTENSION IF NOT EXISTS postgis;
 		CREATE EXTENSION IF NOT EXISTS postgis_topology;
 		CREATE EXTENSION IF NOT EXISTS fuzzystrmatch;
